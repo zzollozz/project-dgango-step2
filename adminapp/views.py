@@ -73,7 +73,7 @@ class UsersListView(AccessMixin, ListView):
 class UserCreateView(AccessMixin, CreateView):  # <== ВАРИАНТ 1 < == CBV
     model = ShopUser
     template_name = 'adminapp/user_update.html'
-    success_url = reverse_lazy('admin:users')
+    success_url = reverse_lazy('adminapp:users_read')
     fields = '__all__'
 
     def get_context_data(self, **kwargs):
@@ -102,7 +102,7 @@ class UserCreateView(AccessMixin, CreateView):  # <== ВАРИАНТ 1 < == CBV
 class UserUpdateView(AccessMixin, UpdateView):  # <== ВАРИАНТ 2 < == CBV
     model = ShopUser
     template_name = 'adminapp/user_update.html'
-    success_url = reverse_lazy('admin:users')
+    success_url = reverse_lazy('adminapp:users_read')
     form_class = ShopUserAdminEditForm
     extra_context = {
         'title': 'пользователи/редактирование'
@@ -117,7 +117,7 @@ def user_delete(request, pk):
         # вместо удаления лучше сделаем неактивным
         user.is_active = False
         user.save()
-        return HttpResponseRedirect(reverse('admin:users'))
+        return HttpResponseRedirect(reverse('adminapp:users_read'))
 
     content = {
         'title': title,
@@ -145,7 +145,7 @@ def category_create(request):
 
         if edit_form_category.is_valid():
             edit_form_category.save()
-            return HttpResponseRedirect(reverse('admin:categories'))
+            return HttpResponseRedirect(reverse('adminapp:categories'))
     else:
         edit_form_category = ProductCategoryEditForm()
 
@@ -163,8 +163,8 @@ def category_update(request, pk):
         edit_form_category = ProductCategoryEditForm(request.POST, instance=edit_category)
         if edit_form_category.is_valid():
             edit_form_category.save()
-            # return HttpResponseRedirect(reverse('admin:categories', args=[edit_category.pk]))
-            return HttpResponseRedirect(reverse('admin:categories'))
+            # return HttpResponseRedirect(reverse('adminapp:categories', args=[edit_category.pk]))
+            return HttpResponseRedirect(reverse('adminapp:categories'))
     else:
         edit_form_category = ProductCategoryEditForm(instance=edit_category)
     content = {
@@ -180,7 +180,7 @@ def category_update(request, pk):
 #     if request.method == 'POST':
 #         category.is_active = False
 #         category.save()
-#         return HttpResponseRedirect(reverse('admin:categories'))
+#         return HttpResponseRedirect(reverse('adminapp:categories'))
 #     content = {
 #         'title': title,
 #         'category_delete': category
@@ -190,7 +190,7 @@ def category_update(request, pk):
 class ProductCategoryDeleteView(AccessMixin, DeleteView):
     model = ProductCategory
     template_name = 'adminapp/category_delete.html'
-    success_url = reverse_lazy('admin:categories')
+    success_url = reverse_lazy('adminapp:categories')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -221,7 +221,7 @@ def product_create(request, pk):
         product_form = ProductEditForm(request.POST, request.FILES)
         if product_form.is_valid():
             product_form.save()
-            return HttpResponseRedirect(reverse('admin:products', args=[pk]))
+            return HttpResponseRedirect(reverse('adminapp:products', args=[pk]))
     else:
         product_form = ProductEditForm(initial={'category': category})
 
@@ -240,7 +240,7 @@ def product_create(request, pk):
 #         product_form = ProductEditForm(request.POST, request.FILES)
 #         if product_form.is_valid():
 #             product_form.save()
-#             return HttpResponseRedirect(reverse('admin:products', args=[pk]))
+#             return HttpResponseRedirect(reverse('adminapp:products', args=[pk]))
 #     else:
 #         product_form = ProductEditForm(initial={'category': category})
 #
@@ -277,7 +277,7 @@ def product_update(request, pk):
         edit_form = ProductEditForm(request.POST, request.FILES, instance=edit_product)
         if edit_form.is_valid():
             edit_form.save()
-            return HttpResponseRedirect(reverse('admin:product_update', args=[edit_product.pk]))
+            return HttpResponseRedirect(reverse('adminapp:product_update', args=[edit_product.pk]))
     else:
         edit_form = ProductEditForm(instance=edit_product)
     content = {
@@ -294,7 +294,7 @@ def product_delete(request, pk):
     if request.method == 'POST':
         product.is_active = False
         product.save()
-        return HttpResponseRedirect(reverse('admin:products', args=[product.category.pk]))
+        return HttpResponseRedirect(reverse('adminapp:products', args=[product.category.pk]))
     content = {
         'title': title,
         'product_to_delete': product

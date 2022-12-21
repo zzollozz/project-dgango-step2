@@ -4,7 +4,7 @@
     <div class="container">
         <div class="categories_list">
             <button class="new_category">
-                <a href={% url 'admin:category_create' %}>новая категория </a>
+                <a href={% url 'adminapp:category_create' %}>новая категория </a>
             </button>
             {% for object in objects %}
                 {% if object.is_active %}
@@ -14,13 +14,13 @@
                     </div>
                     <div class="category_actions">
                         <button>
-                            <a href={% url 'admin:products' object.pk %}> товары категории</a>
+                            <a href={% url 'adminapp:products' object.pk %}> товары категории</a>
                         </button>
                         <button>
-                            <a href={% url 'admin:category_update' object.pk %}> редактировать</a>
+                            <a href={% url 'adminapp:category_update' object.pk %}> редактировать</a>
                         </button>
                         <button>
-                            <a href={% url 'admin:category_delete' object.pk %}> удалить</a>
+                            <a href={% url 'adminapp:category_delete' object.pk %}> удалить</a>
                         </button>
                     </div>
                     <div class="category_desc">

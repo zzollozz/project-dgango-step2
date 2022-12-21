@@ -8,13 +8,13 @@
         {% endif %}
          ======================================
 {#        <form action="{% url 'admin:category_delete' category_delete.pk %}"#}
-        <form action="{% url 'admin:category_delete' object.pk %}"
+        <form action="{% url 'adminapp:category_delete' object.pk %}"
               method="post">
             {% csrf_token %}
             <input class="btn btn-danger" type="submit" value="удалить">
         </form>
         <button class="btn btn-success">
-            <a href="{% url 'admin:categories' %}"> Отмена</a>
+            <a href="{% url 'adminapp:categories' %}"> Отмена</a>
         </button>
     </div>
 {% endblock %}

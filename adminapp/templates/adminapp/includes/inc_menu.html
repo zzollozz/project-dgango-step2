@@ -3,13 +3,13 @@
         <a href="{% url 'main' %}"> на сайт
         </a></li>
     <li>
-        <a href="{% url 'admin:users' %}"
+        <a href="{% url 'adminapp:users_read' %}"
            class="{% if request.resolver_match.url_name == 'users' %} active{% endif %}">
             пользователи
         </a>
     </li>
     <li>
-        <a href="{% url 'admin:categories' %}"
+        <a href="{% url 'adminapp:categories' %}"
            class="{% if request.resolver_match.url_name == 'categories' or category.name %} active{% endif %}">
             категории
             {% if category %}
