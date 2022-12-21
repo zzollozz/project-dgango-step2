@@ -1,0 +1,37 @@
+{% extends 'authapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container col-4 border mt-5 pb-5">
+        <form class="form-horizontal mt-5" action="{% url 'auth:login' %}" method="post">
+            {% csrf_token %}
+
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
+            {{ login_form.as_p }}<br>
+            <input class="form-control btn btn-primary" type="submit" value="войти">
+        </form>
+        <a class="form-control btn btn-primary mt-4" href="{% url 'authapp:register' %}">
+            Зарегистрироваться
+        </a>
+    </div>
+
+
+{#   <div class="container col-4 border mt-5 pb-5">#}
+{#    <form class="form-horizontal mt-5" action="{% url 'auth:login' %}" method="post">#}
+{#        {% csrf_token %}#}
+{#        {% for form in login_form %}#}
+{#            <p>{{ form }}</p>#}
+{#            <div class="form-error">{{ form.errors }}</div>#}
+{#        {% endfor %}#}
+{#        <input class="form-control btn btn-primary" type="submit" value="Войти">#}
+{#    </form>#}
+{#    <a class="form-control btn btn-primary mt-4" href="{% url 'authapp:register' %}">#}
+{#        Зарегистрироваться#}
+{#    </a>#}
+{#    </div>#}
+
+{% endblock %}
