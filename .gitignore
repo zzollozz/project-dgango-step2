@@ -1,5 +1,6 @@
-	.DS_Store
-	.idea/
-	.gitignore
-	.static/
-	venvGeekShop/
+**/**/.DS_Store
+.idea/
+.gitignore
+.static/
+venvGeekShop/
+**/**/.env

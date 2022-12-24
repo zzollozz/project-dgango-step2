@@ -36,7 +36,7 @@ class AccessMixin(UserPassesTestMixin):
 class UsersListView(AccessMixin, ListView):
     model = ShopUser
     template_name = 'adminapp/users.html'
-    paginate_by = 2     # <== это для пагинации
+    paginate_by = 5     # <== это для пагинации
 
     extra_context = {
         'title': 'админка/пользователи'
@@ -110,20 +110,34 @@ class UserUpdateView(AccessMixin, UpdateView):  # <== ВАРИАНТ 2 < == CBV
 
 
 
-def user_delete(request, pk):
-    title = 'пользователи/удаление'
-    user = get_object_or_404(ShopUser, pk=pk)
-    if request.method == 'POST':  # user.delete()
-        # вместо удаления лучше сделаем неактивным
-        user.is_active = False
-        user.save()
-        return HttpResponseRedirect(reverse('adminapp:users_read'))
+# def user_delete(request, pk):
+#     title = 'пользователи/удаление'
+#     user = get_object_or_404(ShopUser, pk=pk)
+#     if request.method == 'POST':
+#         user.delete()
+#         # вместо удаления лучше сделаем неактивным
+#         # user.is_active = False
+#         user.save()
+#         return HttpResponseRedirect(reverse('adminapp:users_read'))
+#
+#     content = {
+#         'title': title,
+#         'user_to_delete': user
+#     }
+#     return render(request, 'adminapp/user_delete.html', content)
 
-    content = {
-        'title': title,
-        'user_to_delete': user
-    }
-    return render(request, 'adminapp/user_delete.html', content)
+class UserDeleteView(AccessMixin, DeleteView):
+    model = ShopUser
+    template_name = 'adminapp/user_delete.html'
+    success_url = reverse_lazy('adminapp:users_read')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
 
 
 def categories(request):
